@@ -1,27 +1,55 @@
 {
-  "name": "lib-components",
+  "name": "puppy-lib-components",
   "version": "1.0.0",
-  "description": "A TypeScript component library with Storybook",
+  "description": "A modern TypeScript React component library with generic UI components and football pickem domain components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/styles/globals.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy-css",
+    "copy-css": "cp -r src/styles dist/",
     "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix"
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "prepack": "npm run build"
   },
   "keywords": [
     "react",
     "typescript",
     "components",
-    "storybook",
-    "ui-library"
+    "ui-library",
+    "design-system",
+    "football",
+    "pickem",
+    "fantasy-sports"
   ],
-  "author": "",
+  "author": "Your Name <your.email@example.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/lib-components.git"
+  },
+  "homepage": "https://github.com/your-username/lib-components#readme",
+  "bugs": {
+    "url": "https://github.com/your-username/lib-components/issues"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

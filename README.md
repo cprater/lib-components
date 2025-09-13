@@ -258,6 +258,31 @@ import { Header } from 'lib-components';
 
 ## 🛠️ Installation
 
+### For Users
+
+```bash
+# Install the package
+npm install @your-org/lib-components
+```
+
+```tsx
+// Import components and styles
+import { Button, Card, GameCard } from '@your-org/lib-components';
+import '@your-org/lib-components/styles';
+
+function App() {
+  return (
+    <div>
+      <Button variant="primary">Click me</Button>
+      <Card>Content</Card>
+      <GameCard game={gameData} />
+    </div>
+  );
+}
+```
+
+### For Development
+
 ```bash
 # Install dependencies
 npm install

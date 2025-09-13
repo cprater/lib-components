@@ -1,0 +1,55 @@
+# Source files
+src/
+.storybook/
+storybook-static/
+
+# Development files
+*.log
+*.tgz
+*.tar.gz
+
+# Dependencies
+node_modules/
+
+# Testing
+coverage/
+.nyc_output/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Build artifacts (except dist)
+*.tsbuildinfo
+
+# Documentation (keep README.md and LICENSE)
+docs/
+*.md
+!README.md
+
+# Config files
+.eslintrc*
+.prettierrc*
+jest.config.*
+tsconfig.json
+babel.config.*
+webpack.config.*
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Storybook
+.storybook/
+storybook-static/
