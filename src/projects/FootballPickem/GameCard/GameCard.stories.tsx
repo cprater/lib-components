@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { GameCard } from './GameCard';
+import { GameCard, Game } from './GameCard';
 
 const meta: Meta<typeof GameCard> = {
   title: 'Projects/FootballPickem/GameCard',
@@ -136,7 +136,7 @@ export const Clickable: Story = {
   args: {
     game: sampleGame,
     clickable: true,
-    onClick: (game) => alert(`Clicked on game: ${game.awayTeam?.abbreviation} @ ${game.homeTeam?.abbreviation}`),
+    onClick: (game: Game) => alert(`Clicked on game: ${game.awayTeam?.abbreviation} @ ${game.homeTeam?.abbreviation}`),
   },
 };
 
@@ -144,7 +144,7 @@ export const WithPickAction: Story = {
   args: {
     game: sampleGame,
     showPickActions: true,
-    onPick: (game) => alert(`Making pick for game: ${game.awayTeam?.abbreviation} @ ${game.homeTeam?.abbreviation}`),
+    onPick: (game: Game) => alert(`Making pick for game: ${game.awayTeam?.abbreviation} @ ${game.homeTeam?.abbreviation}`),
   },
 };
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PickForm } from './PickForm';
+import { PickForm, PickFormData } from './PickForm';
 import { Game, Team } from '../GameCard';
 
 const meta: Meta<typeof PickForm> = {
@@ -107,7 +107,7 @@ export const WithActions: Story = {
   args: {
     game: sampleGame,
     teams: sampleTeams,
-    onSubmit: (data) => alert(`Pick submitted: ${JSON.stringify(data, null, 2)}`),
+    onSubmit: (data: PickFormData) => alert(`Pick submitted: ${JSON.stringify(data, null, 2)}`),
     onCancel: () => alert('Pick cancelled'),
   },
 };

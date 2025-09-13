@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { LeagueCard } from './LeagueCard';
+import { LeagueCard, League } from './LeagueCard';
 
 const meta: Meta<typeof LeagueCard> = {
   title: 'Projects/FootballPickem/LeagueCard',
@@ -101,7 +101,7 @@ export const Clickable: Story = {
   args: {
     league: sampleLeague,
     clickable: true,
-    onClick: (league) => alert(`Clicked on league: ${league.name}`),
+    onClick: (league: League) => alert(`Clicked on league: ${league.name}`),
   },
 };
 
@@ -109,7 +109,7 @@ export const WithJoinAction: Story = {
   args: {
     league: sampleLeague,
     showJoinButton: true,
-    onJoin: (league) => alert(`Joining league: ${league.name}`),
+    onJoin: (league: League) => alert(`Joining league: ${league.name}`),
   },
 };
 

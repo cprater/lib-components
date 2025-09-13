@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StandingsTable } from './StandingsTable';
+import { StandingsTable, StandingsEntry } from './StandingsTable';
 
 const meta: Meta<typeof StandingsTable> = {
   title: 'Projects/FootballPickem/StandingsTable',
@@ -121,7 +121,7 @@ export const Empty: Story = {
 export const WithRowClick: Story = {
   args: {
     standings: sampleStandings,
-    onRowClick: (entry) => alert(`Clicked on ${entry.firstName} ${entry.lastName} (${entry.username})`),
+    onRowClick: (entry: StandingsEntry) => alert(`Clicked on ${entry.firstName} ${entry.lastName} (${entry.username})`),
   },
 };
 
