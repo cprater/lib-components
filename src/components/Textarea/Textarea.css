@@ -1,0 +1,109 @@
+.textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.textarea__label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.textarea__required {
+  color: var(--error-500);
+  font-weight: 600;
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--gray-900);
+  background-color: white;
+  transition: all var(--transition-fast);
+  outline: none;
+  resize: vertical;
+  min-height: 2.5rem;
+}
+
+.textarea:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.textarea::placeholder {
+  color: var(--gray-400);
+}
+
+/* Sizes */
+.textarea--sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  min-height: 2rem;
+}
+
+.textarea--md {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  min-height: 2.5rem;
+}
+
+.textarea--lg {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-lg);
+  min-height: 3rem;
+}
+
+/* States */
+.textarea--error {
+  border-color: var(--error-500);
+}
+
+.textarea--error:focus {
+  border-color: var(--error-500);
+  box-shadow: 0 0 0 3px var(--error-50);
+}
+
+.textarea--disabled {
+  background-color: var(--gray-50);
+  color: var(--gray-500);
+  cursor: not-allowed;
+  border-color: var(--gray-200);
+}
+
+.textarea--disabled::placeholder {
+  color: var(--gray-300);
+}
+
+.textarea--auto-resize {
+  resize: none;
+  overflow: hidden;
+}
+
+.textarea__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+.textarea__message {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.textarea__message--error {
+  color: var(--error-600);
+}
+
+.textarea__char-count {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+  font-weight: 500;
+}

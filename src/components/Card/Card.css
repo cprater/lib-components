@@ -1,0 +1,87 @@
+.card {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+/* Variants */
+.card--default {
+  border: 1px solid var(--gray-200);
+}
+
+.card--elevated {
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+.card--outlined {
+  border: 2px solid var(--gray-300);
+}
+
+/* Interactive state */
+.card--interactive {
+  cursor: pointer;
+}
+
+.card--interactive:hover {
+  transform: translateY(-2px);
+}
+
+.card--interactive:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.card--interactive:active {
+  transform: translateY(0);
+}
+
+/* Interactive variants */
+.card--interactive.card--default:hover {
+  border-color: var(--primary-300);
+  box-shadow: var(--shadow-sm);
+}
+
+.card--interactive.card--elevated:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card--interactive.card--outlined:hover {
+  border-color: var(--primary-500);
+}
+
+/* Padding */
+.card--padding-none {
+  padding: 0;
+}
+
+.card--padding-sm {
+  padding: var(--spacing-md);
+}
+
+.card--padding-md {
+  padding: var(--spacing-lg);
+}
+
+.card--padding-lg {
+  padding: var(--spacing-xl);
+}
+
+/* Card sections */
+.card__header {
+  border-bottom: 1px solid var(--gray-200);
+  padding: var(--spacing-lg);
+  margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) 0;
+}
+
+.card__content {
+  flex: 1;
+}
+
+.card__footer {
+  border-top: 1px solid var(--gray-200);
+  padding: var(--spacing-lg);
+  margin: 0 calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg));
+  background-color: var(--gray-50);
+}
