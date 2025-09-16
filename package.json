@@ -1,6 +1,6 @@
 {
   "name": "puppy-lib-components",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A modern TypeScript React component library with generic UI components and football pickem domain components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -55,6 +55,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@mui/x-date-pickers-pro": "^8.11.2",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
