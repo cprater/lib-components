@@ -1,5 +1,5 @@
 import React from 'react';
-import './Avatar.css';
+import { Avatar as MuiAvatar, AvatarProps as MuiAvatarProps } from '@mui/material';
 
 export interface AvatarProps {
   /**
@@ -47,14 +47,15 @@ export const Avatar: React.FC<AvatarProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'avatar';
-  const sizeClasses = `avatar--${size}`;
-  const shapeClasses = `avatar--${shape}`;
-  const clickableClasses = clickable ? 'avatar--clickable' : '';
+  // Map custom sizes to MUI sizes
+  const muiSize = size === 'xs' ? 24 :
+                  size === 'sm' ? 32 :
+                  size === 'md' ? 40 :
+                  size === 'lg' ? 56 :
+                  size === 'xl' ? 80 : 40;
 
-  const classes = [baseClasses, sizeClasses, shapeClasses, clickableClasses, className]
-    .filter(Boolean)
-    .join(' ');
+  // Map custom shapes to MUI variants
+  const muiVariant = shape === 'square' ? 'square' : 'circular';
 
   const getInitials = (text: string) => {
     return text
@@ -66,31 +67,21 @@ export const Avatar: React.FC<AvatarProps> = ({
   };
 
   return (
-    <div
-      className={classes}
+    <MuiAvatar
+      src={src}
+      alt={alt}
+      sx={{
+        width: muiSize,
+        height: muiSize,
+        cursor: clickable ? 'pointer' : 'default',
+        borderRadius: shape === 'rounded' ? '8px' : undefined,
+      }}
+      variant={muiVariant}
       onClick={clickable ? onClick : undefined}
-      role={clickable ? 'button' : undefined}
-      tabIndex={clickable ? 0 : undefined}
+      className={className}
       {...props}
     >
-      {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className="avatar__image"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const fallbackElement = target.nextElementSibling as HTMLElement;
-            if (fallbackElement) {
-              fallbackElement.style.display = 'flex';
-            }
-          }}
-        />
-      ) : null}
-      <div className="avatar__fallback" style={{ display: src ? 'none' : 'flex' }}>
-        {fallback ? getInitials(fallback) : '?'}
-      </div>
-    </div>
+      {fallback ? getInitials(fallback) : '?'}
+    </MuiAvatar>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Loading.css';
+import { CircularProgress, LinearProgress, Box, Typography, Backdrop } from '@mui/material';
 
 export interface LoadingProps {
   /**
@@ -37,58 +37,98 @@ export const Loading: React.FC<LoadingProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'loading';
-  const sizeClasses = `loading--${size}`;
-  const variantClasses = `loading--${variant}`;
-  const colorClasses = `loading--${color}`;
-  const overlayClasses = overlay ? 'loading--overlay' : '';
+  // Map custom sizes to MUI sizes
+  const muiSize = size === 'sm' ? 20 :
+                  size === 'md' ? 40 :
+                  size === 'lg' ? 60 :
+                  size === 'xl' ? 80 : 40;
 
-  const classes = [baseClasses, sizeClasses, variantClasses, colorClasses, overlayClasses, className]
-    .filter(Boolean)
-    .join(' ');
-
-  const renderSpinner = () => (
-    <div className="loading__spinner">
-      <div className="loading__spinner-inner"></div>
-    </div>
-  );
-
-  const renderDots = () => (
-    <div className="loading__dots">
-      <div className="loading__dot"></div>
-      <div className="loading__dot"></div>
-      <div className="loading__dot"></div>
-    </div>
-  );
-
-  const renderPulse = () => (
-    <div className="loading__pulse">
-      <div className="loading__pulse-inner"></div>
-    </div>
-  );
+  // Map custom colors to MUI colors
+  const muiColor = color === 'primary' ? 'primary' :
+                   color === 'secondary' ? 'secondary' :
+                   color === 'white' ? 'inherit' : 'primary';
 
   const renderLoader = () => {
     switch (variant) {
       case 'dots':
-        return renderDots();
+        return (
+          <Box display="flex" gap={1}>
+            {[0, 1, 2].map((index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  backgroundColor: muiColor === 'inherit' ? 'white' : 'currentColor',
+                  animation: 'loading-dots 1.4s infinite ease-in-out',
+                  animationDelay: `${index * 0.16}s`,
+                  '@keyframes loading-dots': {
+                    '0%, 80%, 100%': {
+                      transform: 'scale(0)',
+                    },
+                    '40%': {
+                      transform: 'scale(1)',
+                    },
+                  },
+                }}
+              />
+            ))}
+          </Box>
+        );
       case 'pulse':
-        return renderPulse();
+        return (
+          <Box
+            sx={{
+              width: muiSize,
+              height: muiSize,
+              borderRadius: '50%',
+              backgroundColor: muiColor === 'inherit' ? 'white' : 'currentColor',
+              animation: 'loading-pulse 1.5s infinite ease-in-out',
+              '@keyframes loading-pulse': {
+                '0%': {
+                  transform: 'scale(0)',
+                  opacity: 1,
+                },
+                '100%': {
+                  transform: 'scale(1)',
+                  opacity: 0,
+                },
+              },
+            }}
+          />
+        );
       case 'spinner':
       default:
-        return renderSpinner();
+        return <CircularProgress size={muiSize} color={muiColor} />;
     }
   };
 
-  return (
-    <div className={classes} {...props}>
-      <div className="loading__content">
-        {renderLoader()}
-        {text && (
-          <div className="loading__text">
-            {text}
-          </div>
-        )}
-      </div>
-    </div>
+  const content = (
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      gap={2}
+      className={className}
+      {...props}
+    >
+      {renderLoader()}
+      {text && (
+        <Typography variant="body2" color="text.secondary">
+          {text}
+        </Typography>
+      )}
+    </Box>
   );
+
+  if (overlay) {
+    return (
+      <Backdrop open={true} sx={{ zIndex: 1300 }}>
+        {content}
+      </Backdrop>
+    );
+  }
+
+  return content;
 };

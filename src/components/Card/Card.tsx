@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.css';
+import { Card as MuiCard, CardHeader as MuiCardHeader, CardContent as MuiCardContent, CardActions as MuiCardActions } from '@mui/material';
 
 export interface CardProps {
   /**
@@ -41,25 +41,33 @@ export const Card: React.FC<CardProps> = ({
   padding = 'md',
   ...props
 }) => {
-  const baseClasses = 'card';
-  const variantClasses = `card--${variant}`;
-  const paddingClasses = `card--padding-${padding}`;
-  const interactiveClasses = interactive ? 'card--interactive' : '';
+  // Map custom variants to MUI elevation
+  const elevation = variant === 'elevated' ? 4 : 
+                   variant === 'outlined' ? 0 : 1;
 
-  const classes = [baseClasses, variantClasses, paddingClasses, interactiveClasses, className]
-    .filter(Boolean)
-    .join(' ');
+  // Map custom padding to MUI padding
+  const muiPadding = padding === 'none' ? 0 :
+                     padding === 'sm' ? 1 :
+                     padding === 'md' ? 2 :
+                     padding === 'lg' ? 3 : 2;
 
   return (
-    <div
-      className={classes}
+    <MuiCard
+      elevation={elevation}
+      variant={variant === 'outlined' ? 'outlined' : 'elevation'}
       onClick={interactive ? onClick : undefined}
-      role={interactive ? 'button' : undefined}
-      tabIndex={interactive ? 0 : undefined}
+      className={className}
+      sx={{
+        cursor: interactive ? 'pointer' : 'default',
+        padding: muiPadding,
+        '&:hover': interactive ? {
+          boxShadow: 6,
+        } : {},
+      }}
       {...props}
     >
       {children}
-    </div>
+    </MuiCard>
   );
 };
 
@@ -69,9 +77,9 @@ export interface CardHeaderProps {
 }
 
 export const CardHeader: React.FC<CardHeaderProps> = ({ children, className = '' }) => (
-  <div className={`card__header ${className}`}>
+  <MuiCardHeader className={className}>
     {children}
-  </div>
+  </MuiCardHeader>
 );
 
 export interface CardContentProps {
@@ -80,9 +88,9 @@ export interface CardContentProps {
 }
 
 export const CardContent: React.FC<CardContentProps> = ({ children, className = '' }) => (
-  <div className={`card__content ${className}`}>
+  <MuiCardContent className={className}>
     {children}
-  </div>
+  </MuiCardContent>
 );
 
 export interface CardFooterProps {
@@ -91,7 +99,7 @@ export interface CardFooterProps {
 }
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => (
-  <div className={`card__footer ${className}`}>
+  <MuiCardActions className={className}>
     {children}
-  </div>
+  </MuiCardActions>
 );

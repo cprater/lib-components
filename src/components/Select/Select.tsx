@@ -1,5 +1,5 @@
 import React from 'react';
-import './Select.css';
+import { FormControl, InputLabel, Select as MuiSelect, MenuItem, FormHelperText, SelectChangeEvent } from '@mui/material';
 
 export interface SelectOption {
   value: string | number;
@@ -98,67 +98,66 @@ export const Select: React.FC<SelectProps> = ({
   id,
   ...props
 }) => {
-  const selectId = id || (name ? `select-${name}` : undefined);
   const hasError = error || !!errorMessage;
 
-  const selectClasses = [
-    'select',
-    `select--${size}`,
-    hasError && 'select--error',
-    disabled && 'select--disabled',
-    className,
-  ].filter(Boolean).join(' ');
+  // Map custom sizes to MUI sizes (FormControl only supports small and medium)
+  const muiSize = size === 'sm' ? 'small' :
+                  size === 'md' ? 'medium' :
+                  size === 'lg' ? 'medium' : 'medium';
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     if (onChange) {
       const selectedOption = options.find(option => 
         option.value.toString() === event.target.value
       );
-      onChange(selectedOption?.value || event.target.value, event);
+      // Create a synthetic event that matches the expected signature
+      const syntheticEvent = {
+        target: { value: event.target.value },
+        currentTarget: event.currentTarget,
+      } as React.ChangeEvent<HTMLSelectElement>;
+      onChange(selectedOption?.value || event.target.value, syntheticEvent);
     }
   };
 
   return (
-    <div className="select-wrapper">
-      {label && (
-        <label htmlFor={selectId} className="select__label">
-          {label}
-          {required && <span className="select__required">*</span>}
-        </label>
-      )}
-      <select
-        id={selectId}
+    <FormControl 
+      fullWidth 
+      error={hasError} 
+      disabled={disabled} 
+      required={required}
+      size={muiSize}
+      className={className}
+    >
+      {label && <InputLabel id={`${id || name || 'select'}-label`}>{label}</InputLabel>}
+      <MuiSelect
+        labelId={`${id || name || 'select'}-label`}
+        id={id}
         name={name}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        required={required}
+        value={value?.toString() || ''}
+        defaultValue={defaultValue?.toString()}
+        label={label}
         onChange={handleChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        className={selectClasses}
+        displayEmpty={!!placeholder}
         {...props}
       >
         {placeholder && (
-          <option value="" disabled>
+          <MenuItem value="" disabled>
             {placeholder}
-          </option>
+          </MenuItem>
         )}
         {options.map((option) => (
-          <option
+          <MenuItem
             key={option.value}
-            value={option.value}
+            value={option.value.toString()}
             disabled={option.disabled}
           >
             {option.label}
-          </option>
+          </MenuItem>
         ))}
-      </select>
+      </MuiSelect>
       {(helperText || errorMessage) && (
-        <div className={`select__message ${hasError ? 'select__message--error' : ''}`}>
-          {errorMessage || helperText}
-        </div>
+        <FormHelperText>{errorMessage || helperText}</FormHelperText>
       )}
-    </div>
+    </FormControl>
   );
 };

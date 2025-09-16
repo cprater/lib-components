@@ -1,5 +1,5 @@
 import React from 'react';
-import './Container.css';
+import { Container as MuiContainer, ContainerProps as MuiContainerProps } from '@mui/material';
 
 export interface ContainerProps {
   /**
@@ -32,18 +32,32 @@ export const Container: React.FC<ContainerProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'container';
-  const maxWidthClasses = `container--max-width-${maxWidth}`;
-  const centeredClasses = centered ? 'container--centered' : '';
-  const paddingClasses = `container--padding-${padding}`;
+  // Map custom maxWidth to MUI maxWidth
+  const muiMaxWidth = maxWidth === 'sm' ? 'sm' :
+                      maxWidth === 'md' ? 'md' :
+                      maxWidth === 'lg' ? 'lg' :
+                      maxWidth === 'xl' ? 'xl' :
+                      maxWidth === '2xl' ? 'xl' :
+                      maxWidth === 'full' ? false : 'xl';
 
-  const classes = [baseClasses, maxWidthClasses, centeredClasses, paddingClasses, className]
-    .filter(Boolean)
-    .join(' ');
+  // Map custom padding to MUI padding
+  const muiPadding = padding === 'none' ? 0 :
+                     padding === 'sm' ? 1 :
+                     padding === 'md' ? 2 :
+                     padding === 'lg' ? 3 :
+                     padding === 'xl' ? 4 : 2;
 
   return (
-    <div className={classes} {...props}>
+    <MuiContainer
+      maxWidth={muiMaxWidth}
+      className={className}
+      sx={{
+        padding: muiPadding,
+        margin: centered ? '0 auto' : undefined,
+      }}
+      {...props}
+    >
       {children}
-    </div>
+    </MuiContainer>
   );
 };

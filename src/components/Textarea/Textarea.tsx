@@ -1,5 +1,5 @@
 import React from 'react';
-import './Textarea.css';
+import { TextField, TextFieldProps } from '@mui/material';
 
 export interface TextareaProps {
   /**
@@ -102,65 +102,45 @@ export const Textarea: React.FC<TextareaProps> = ({
   maxLength,
   ...props
 }) => {
-  const textareaId = id || (name ? `textarea-${name}` : undefined);
   const hasError = error || !!errorMessage;
 
-  const textareaClasses = [
-    'textarea',
-    `textarea--${size}`,
-    hasError && 'textarea--error',
-    disabled && 'textarea--disabled',
-    autoResize && 'textarea--auto-resize',
-    className,
-  ].filter(Boolean).join(' ');
+  // Map custom sizes to MUI sizes (TextField only supports small and medium)
+  const muiSize = size === 'sm' ? 'small' :
+                  size === 'md' ? 'medium' :
+                  size === 'lg' ? 'medium' : 'medium';
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (autoResize) {
-      const textarea = event.target;
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-    if (onChange) {
-      onChange(event);
-    }
-  };
+  // Combine helper text with character count if maxLength is provided
+  const combinedHelperText = maxLength 
+    ? `${errorMessage || helperText || ''} (${value?.length || 0}/${maxLength})`
+    : errorMessage || helperText;
 
   return (
-    <div className="textarea-wrapper">
-      {label && (
-        <label htmlFor={textareaId} className="textarea__label">
-          {label}
-          {required && <span className="textarea__required">*</span>}
-        </label>
-      )}
-      <textarea
-        id={textareaId}
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        required={required}
-        rows={rows}
-        maxLength={maxLength}
-        onChange={handleChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        className={textareaClasses}
-        {...props}
-      />
-      {(helperText || errorMessage || maxLength) && (
-        <div className="textarea__footer">
-          <div className={`textarea__message ${hasError ? 'textarea__message--error' : ''}`}>
-            {errorMessage || helperText}
-          </div>
-          {maxLength && (
-            <div className="textarea__char-count">
-              {value?.length || 0} / {maxLength}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    <TextField
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      required={required}
+      error={hasError}
+      label={label}
+      helperText={combinedHelperText}
+      size={muiSize}
+      multiline
+      rows={rows}
+      inputProps={{ maxLength }}
+      onChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      className={className}
+      fullWidth
+      sx={{
+        '& .MuiInputBase-input': {
+          resize: autoResize ? 'vertical' : 'none',
+        },
+      }}
+      {...props}
+    />
   );
 };

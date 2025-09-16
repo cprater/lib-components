@@ -1,5 +1,5 @@
 import React from 'react';
-import './Badge.css';
+import { Chip, ChipProps } from '@mui/material';
 
 export interface BadgeProps {
   /**
@@ -32,18 +32,28 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'badge';
-  const variantClasses = `badge--${variant}`;
-  const sizeClasses = `badge--${size}`;
-  const roundedClasses = rounded ? 'badge--rounded' : '';
+  // Map custom variants to MUI colors
+  const muiColor = variant === 'primary' ? 'primary' :
+                   variant === 'success' ? 'success' :
+                   variant === 'warning' ? 'warning' :
+                   variant === 'error' ? 'error' :
+                   variant === 'info' ? 'info' : 'default';
 
-  const classes = [baseClasses, variantClasses, sizeClasses, roundedClasses, className]
-    .filter(Boolean)
-    .join(' ');
+  // Map custom sizes to MUI sizes (Chip only supports small and medium)
+  const muiSize = size === 'sm' ? 'small' :
+                  size === 'md' ? 'medium' :
+                  size === 'lg' ? 'medium' : 'medium';
 
   return (
-    <span className={classes} {...props}>
-      {children}
-    </span>
+    <Chip
+      label={children}
+      color={muiColor}
+      size={muiSize}
+      className={className}
+      sx={{
+        borderRadius: rounded ? '50px' : '4px',
+      }}
+      {...props}
+    />
   );
 };

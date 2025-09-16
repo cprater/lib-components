@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar } from '../Avatar';
 import { Badge } from '../Badge';
-import './UserCard.css';
+import { Card, CardContent, Box, Typography, Stack } from '@mui/material';
 
 export interface User {
   id: number;
@@ -50,13 +50,6 @@ export const UserCard: React.FC<UserCardProps> = ({
   actions,
   ...props
 }) => {
-  const baseClasses = 'user-card';
-  const clickableClasses = clickable ? 'user-card--clickable' : '';
-
-  const classes = [baseClasses, clickableClasses, className]
-    .filter(Boolean)
-    .join(' ');
-
   const handleClick = () => {
     if (clickable && onClick) {
       onClick(user);
@@ -68,43 +61,55 @@ export const UserCard: React.FC<UserCardProps> = ({
     : user.username;
 
   return (
-    <div
-      className={classes}
+    <Card
+      className={className}
       onClick={handleClick}
-      role={clickable ? 'button' : undefined}
-      tabIndex={clickable ? 0 : undefined}
+      sx={{
+        cursor: clickable ? 'pointer' : 'default',
+        '&:hover': clickable ? {
+          boxShadow: 6,
+        } : {},
+      }}
       {...props}
     >
-      <div className="user-card__content">
-        <Avatar
-          src={user.avatarUrl}
-          fallback={displayName}
-          size="lg"
-          clickable={false}
-        />
-        <div className="user-card__info">
-          <div className="user-card__name">
-            {displayName}
-            {user.isActive === false && (
-              <Badge variant="warning" size="sm">Inactive</Badge>
+      <CardContent>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Avatar
+            src={user.avatarUrl}
+            fallback={displayName}
+            size="lg"
+            clickable={false}
+          />
+          <Box flex={1}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="h6" component="div">
+                {displayName}
+              </Typography>
+              {user.isActive === false && (
+                <Badge variant="warning" size="sm">Inactive</Badge>
+              )}
+            </Stack>
+            <Typography variant="body2" color="text.secondary">
+              @{user.username}
+            </Typography>
+            {showDetails && user.email && (
+              <Typography variant="body2" color="text.secondary">
+                {user.email}
+              </Typography>
             )}
-          </div>
-          <div className="user-card__username">@{user.username}</div>
-          {showDetails && user.email && (
-            <div className="user-card__email">{user.email}</div>
-          )}
-          {showDetails && user.createdAt && (
-            <div className="user-card__joined">
-              Joined {new Date(user.createdAt).toLocaleDateString()}
-            </div>
-          )}
-        </div>
-      </div>
-      {actions && (
-        <div className="user-card__actions">
-          {actions}
-        </div>
-      )}
-    </div>
+            {showDetails && user.createdAt && (
+              <Typography variant="body2" color="text.secondary">
+                Joined {new Date(user.createdAt).toLocaleDateString()}
+              </Typography>
+            )}
+          </Box>
+        </Stack>
+        {actions && (
+          <Box mt={2}>
+            {actions}
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 };

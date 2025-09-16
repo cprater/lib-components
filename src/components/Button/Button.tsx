@@ -1,5 +1,5 @@
 import React from 'react';
-import './Button.css';
+import { Button as MuiButton, ButtonProps as MuiButtonProps, CircularProgress } from '@mui/material';
 
 export interface ButtonProps {
   /**
@@ -52,31 +52,35 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   ...props
 }) => {
-  const baseClasses = 'btn';
-  const variantClasses = `btn--${variant}`;
-  const sizeClasses = `btn--${size}`;
-  const stateClasses = [
-    disabled && 'btn--disabled',
-    loading && 'btn--loading',
-    fullWidth && 'btn--full-width',
-  ].filter(Boolean).join(' ');
+  // Map custom variants to MUI variants
+  const muiVariant = variant === 'primary' ? 'contained' : 
+                    variant === 'secondary' ? 'outlined' :
+                    variant === 'outline' ? 'outlined' :
+                    variant === 'ghost' ? 'text' :
+                    variant === 'danger' ? 'contained' : 'contained';
 
-  const classes = [baseClasses, variantClasses, sizeClasses, stateClasses, className]
-    .filter(Boolean)
-    .join(' ');
+  // Map custom sizes to MUI sizes
+  const muiSize = size === 'sm' ? 'small' :
+                  size === 'md' ? 'medium' :
+                  size === 'lg' ? 'large' : 'medium';
+
+  // Map custom color to MUI color
+  const muiColor = variant === 'danger' ? 'error' : 'primary';
 
   return (
-    <button
-      type={type}
-      className={classes}
+    <MuiButton
+      variant={muiVariant}
+      size={muiSize}
+      color={muiColor}
       disabled={disabled || loading}
+      type={type}
       onClick={onClick}
+      className={className}
+      fullWidth={fullWidth}
+      startIcon={loading ? <CircularProgress size={16} /> : undefined}
       {...props}
     >
-      {loading && <span className="btn__spinner" aria-hidden="true" />}
-      <span className={loading ? 'btn__content--loading' : 'btn__content'}>
-        {children}
-      </span>
-    </button>
+      {children}
+    </MuiButton>
   );
 };

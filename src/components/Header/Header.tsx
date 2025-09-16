@@ -1,7 +1,8 @@
 import React from 'react';
 import { Avatar } from '../Avatar';
 import { Button } from '../Button';
-import './Header.css';
+import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem } from '@mui/material';
+import { AccountCircle } from '@mui/icons-material';
 
 export interface User {
   id: number;
@@ -66,75 +67,114 @@ export const Header: React.FC<HeaderProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'header';
-  const classes = [baseClasses, className].filter(Boolean).join(' ');
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const displayName = user?.firstName && user?.lastName 
     ? `${user.firstName} ${user.lastName}`
     : user?.username || 'User';
 
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    if (onUserMenuClick) {
+      onUserMenuClick();
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <header className={classes} {...props}>
-      <div className="header__container">
-        <div className="header__brand">
+    <AppBar position="static" className={className} {...props}>
+      <Toolbar>
+        <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
           {logoUrl && (
-            <img 
-              src={logoUrl} 
+            <Box
+              component="img"
+              src={logoUrl}
               alt={title}
-              className="header__logo"
+              sx={{ height: 40, marginRight: 2 }}
             />
           )}
-          <h1 className="header__title">{title}</h1>
-        </div>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+        </Box>
 
-        <nav className="header__nav">
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           {navItems.map((item, index) => (
-            <a
+            <Typography
               key={index}
+              component="a"
               href={item.href}
-              className={`header__nav-link ${item.active ? 'header__nav-link--active' : ''}`}
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+                fontWeight: item.active ? 'bold' : 'normal',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
             >
               {item.label}
-            </a>
+            </Typography>
           ))}
-        </nav>
 
-        <div className="header__actions">
           {isAuthenticated && user ? (
-            <div className="header__user">
-              <button
-                className="header__user-button"
-                onClick={onUserMenuClick}
-                aria-label="User menu"
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleUserMenuClick}
+                color="inherit"
               >
                 <Avatar
                   src={user.avatarUrl}
                   fallback={displayName}
                   size="sm"
                 />
-                <span className="header__user-name">{displayName}</span>
-              </button>
-              {onLogout && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onLogout}
-                >
-                  Logout
-                </Button>
-              )}
-            </div>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  <Typography variant="body2">{displayName}</Typography>
+                </MenuItem>
+                {onLogout && (
+                  <MenuItem onClick={() => {
+                    handleClose();
+                    onLogout();
+                  }}>
+                    Logout
+                  </MenuItem>
+                )}
+              </Menu>
+            </Box>
           ) : (
             <Button
-              variant="primary"
+              variant="outline"
               size="sm"
               onClick={onLogin}
             >
               Login
             </Button>
           )}
-        </div>
-      </div>
-    </header>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };

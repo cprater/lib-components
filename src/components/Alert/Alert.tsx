@@ -1,5 +1,6 @@
 import React from 'react';
-import './Alert.css';
+import { Alert as MuiAlert, AlertProps as MuiAlertProps, IconButton } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 export interface AlertProps {
   /**
@@ -42,51 +43,30 @@ export const Alert: React.FC<AlertProps> = ({
   showIcon = true,
   ...props
 }) => {
-  const baseClasses = 'alert';
-  const variantClasses = `alert--${variant}`;
-  const sizeClasses = `alert--${size}`;
-
-  const classes = [baseClasses, variantClasses, sizeClasses, className]
-    .filter(Boolean)
-    .join(' ');
-
-  const getIcon = () => {
-    if (!showIcon) return null;
-    
-    switch (variant) {
-      case 'success':
-        return '✓';
-      case 'warning':
-        return '⚠';
-      case 'error':
-        return '✕';
-      case 'info':
-      default:
-        return 'ℹ';
-    }
-  };
+  // Map custom variants to MUI severity
+  const muiSeverity = variant === 'info' ? 'info' :
+                      variant === 'success' ? 'success' :
+                      variant === 'warning' ? 'warning' :
+                      variant === 'error' ? 'error' : 'info';
 
   return (
-    <div className={classes} role="alert" {...props}>
-      <div className="alert__content">
-        {showIcon && (
-          <div className="alert__icon">
-            {getIcon()}
-          </div>
-        )}
-        <div className="alert__message">
-          {children}
-        </div>
-      </div>
-      {dismissible && onDismiss && (
-        <button
-          className="alert__dismiss"
+    <MuiAlert
+      severity={muiSeverity}
+      className={className}
+      icon={showIcon ? undefined : false}
+      action={dismissible && onDismiss ? (
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          size="small"
           onClick={onDismiss}
-          aria-label="Dismiss alert"
         >
-          ×
-        </button>
-      )}
-    </div>
+          <CloseIcon fontSize="inherit" />
+        </IconButton>
+      ) : undefined}
+      {...props}
+    >
+      {children}
+    </MuiAlert>
   );
 };

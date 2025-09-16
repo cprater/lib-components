@@ -1,5 +1,5 @@
 import React from 'react';
-import './Input.css';
+import { TextField, TextFieldProps } from '@mui/material';
 
 export interface InputProps {
   /**
@@ -92,45 +92,33 @@ export const Input: React.FC<InputProps> = ({
   id,
   ...props
 }) => {
-  const inputId = id || (name ? `input-${name}` : undefined);
   const hasError = error || !!errorMessage;
 
-  const inputClasses = [
-    'input',
-    `input--${size}`,
-    hasError && 'input--error',
-    disabled && 'input--disabled',
-    className,
-  ].filter(Boolean).join(' ');
+  // Map custom sizes to MUI sizes (TextField only supports small and medium)
+  const muiSize = size === 'sm' ? 'small' :
+                  size === 'md' ? 'medium' :
+                  size === 'lg' ? 'medium' : 'medium';
 
   return (
-    <div className="input-wrapper">
-      {label && (
-        <label htmlFor={inputId} className="input__label">
-          {label}
-          {required && <span className="input__required">*</span>}
-        </label>
-      )}
-      <input
-        id={inputId}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        required={required}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        className={inputClasses}
-        {...props}
-      />
-      {(helperText || errorMessage) && (
-        <div className={`input__message ${hasError ? 'input__message--error' : ''}`}>
-          {errorMessage || helperText}
-        </div>
-      )}
-    </div>
+    <TextField
+      id={id}
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      required={required}
+      error={hasError}
+      label={label}
+      helperText={errorMessage || helperText}
+      size={muiSize}
+      onChange={onChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      className={className}
+      fullWidth
+      {...props}
+    />
   );
 };
