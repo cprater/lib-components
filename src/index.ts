@@ -18,6 +18,9 @@ export type { SelectProps, SelectOption } from './components/Select';
 export { Textarea } from './components/Textarea';
 export type { TextareaProps } from './components/Textarea';
 
+export { DateRangePicker } from './components/DateRangePicker';
+export type { DateRangePickerProps, DateRange } from './components/DateRangePicker';
+
 // User Components
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
