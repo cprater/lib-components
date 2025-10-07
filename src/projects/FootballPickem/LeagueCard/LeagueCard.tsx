@@ -95,6 +95,7 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
 
   const isFull = league.currentParticipants && league.currentParticipants >= league.maxParticipants;
   const canJoin = !isMember && !isFull && league.isActive;
+  const scoringTypeLabel = getScoringTypeLabel(league.scoringType);
 
   return (
     <div
@@ -111,9 +112,11 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
             <Badge variant={league.isPublic ? 'success' : 'warning'} size="sm">
               {league.isPublic ? 'Public' : 'Private'}
             </Badge>
-            <Badge variant="info" size="sm">
-              {getScoringTypeLabel(league.scoringType)}
-            </Badge>
+            {scoringTypeLabel && (
+              <Badge variant="info" size="sm">
+                {scoringTypeLabel}
+              </Badge>
+            )}
             {!league.isActive && (
               <Badge variant="error" size="sm">Inactive</Badge>
             )}

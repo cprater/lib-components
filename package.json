@@ -1,6 +1,6 @@
 {
   "name": "puppy-lib-components",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "A modern TypeScript React component library with generic UI components and football pickem domain components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "tsc && npm run copy-css",
-    "copy-css": "cp -r src/styles dist/",
+    "copy-css": "cp -r src/styles dist/ && find src -name '*.css' -not -path 'src/styles/*' -exec bash -c 'mkdir -p dist/$(dirname \"{}\" | sed \"s|^src/||\" ) && cp \"{}\" dist/$(dirname \"{}\" | sed \"s|^src/||\")/$(basename \"{}\")' \\;",
     "dev": "tsc --watch",
     "prepublishOnly": "npm run build",
     "storybook": "storybook dev -p 6006",
