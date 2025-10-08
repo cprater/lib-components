@@ -39,6 +39,9 @@ export type { AlertProps } from './components/Alert';
 export { Loading } from './components/Loading';
 export type { LoadingProps } from './components/Loading';
 
+export { Modal } from './components/Modal';
+export type { ModalProps } from './components/Modal';
+
 // Layout Components
 export { Container } from './components/Container';
 export type { ContainerProps } from './components/Container';
