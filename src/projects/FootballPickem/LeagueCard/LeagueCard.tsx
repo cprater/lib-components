@@ -8,7 +8,7 @@ export interface League {
   name: string;
   description?: string;
   commissionerId: number;
-  isPublic: boolean;
+  isPublic?: boolean;
   maxParticipants: number;
   entryFee: number;
   scoringType: 'confidence' | 'straight' | 'survivor';
@@ -109,9 +109,10 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
         <div className="league-card__title">
           <h3 className="league-card__name">{league.name}</h3>
           <div className="league-card__badges">
-            <Badge variant={league.isPublic ? 'success' : 'warning'} size="sm">
+            {/* TODO: Public and Private leagues have not been implemented yet */}
+            {/* <Badge variant={league.isPublic ? 'success' : 'warning'} size="sm">
               {league.isPublic ? 'Public' : 'Private'}
-            </Badge>
+            </Badge> */}
             {scoringTypeLabel && (
               <Badge variant="info" size="sm">
                 {scoringTypeLabel}
