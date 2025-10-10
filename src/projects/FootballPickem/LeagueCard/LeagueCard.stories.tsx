@@ -12,11 +12,21 @@ const meta: Meta<typeof LeagueCard> = {
     clickable: {
       control: { type: 'boolean' },
     },
-    showJoinButton: {
+    showBadge: {
       control: { type: 'boolean' },
     },
-    isMember: {
+    badgeText: {
+      control: { type: 'text' },
+    },
+    badgeType: {
+      control: { type: 'select' },
+      options: ['success', 'warning', 'error', 'info', 'default', 'primary'],
+    },
+    showCta: {
       control: { type: 'boolean' },
+    },
+    ctaText: {
+      control: { type: 'text' },
     },
   },
 };
@@ -78,22 +88,27 @@ export const Private: Story = {
 export const Full: Story = {
   args: {
     league: fullLeague,
-    showJoinButton: true,
+    showBadge: true,
+    badgeText: 'Full',
+    badgeType: 'warning',
   },
 };
 
 export const WithJoinButton: Story = {
   args: {
     league: sampleLeague,
-    showJoinButton: true,
+    showCta: true,
+    ctaText: 'Join League',
+    ctaAction: (league: League) => alert(`Joining league: ${league.name}`),
   },
 };
 
 export const AsMember: Story = {
   args: {
     league: sampleLeague,
-    showJoinButton: true,
-    isMember: true,
+    showBadge: true,
+    badgeText: 'Member',
+    badgeType: 'success',
   },
 };
 
@@ -108,17 +123,45 @@ export const Clickable: Story = {
 export const WithJoinAction: Story = {
   args: {
     league: sampleLeague,
-    showJoinButton: true,
-    onJoin: (league: League) => alert(`Joining league: ${league.name}`),
+    showCta: true,
+    ctaText: 'Join League',
+    ctaAction: (league: League) => alert(`Joining league: ${league.name}`),
+  },
+};
+
+export const WithBadgeAndCta: Story = {
+  args: {
+    league: sampleLeague,
+    showBadge: true,
+    badgeText: 'Featured',
+    badgeType: 'primary',
+    showCta: true,
+    ctaText: 'Join Now',
+    ctaAction: (league: League) => alert(`Joining league: ${league.name}`),
   },
 };
 
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '400px' }}>
-      <LeagueCard league={sampleLeague} showJoinButton={true} />
-      <LeagueCard league={privateLeague} showJoinButton={true} />
-      <LeagueCard league={fullLeague} showJoinButton={true} />
+      <LeagueCard 
+        league={sampleLeague} 
+        showCta={true} 
+        ctaText="Join League"
+        ctaAction={() => alert('Join clicked')}
+      />
+      <LeagueCard 
+        league={privateLeague} 
+        showBadge={true}
+        badgeText="Member"
+        badgeType="success"
+      />
+      <LeagueCard 
+        league={fullLeague} 
+        showBadge={true}
+        badgeText="Full"
+        badgeType="warning"
+      />
     </div>
   ),
 };

@@ -37,17 +37,29 @@ export interface LeagueCardProps {
    */
   onClick?: (league: League) => void;
   /**
-   * Whether to show join button
+   * Whether to show a badge in the actions section
    */
-  showJoinButton?: boolean;
+  showBadge?: boolean;
   /**
-   * Whether user is already a member
+   * Text to display in the badge
    */
-  isMember?: boolean;
+  badgeText?: string;
   /**
-   * Join button click handler
+   * Badge variant/type
    */
-  onJoin?: (league: League) => void;
+  badgeType?: 'success' | 'warning' | 'error' | 'info' | 'default' | 'primary';
+  /**
+   * Whether to show a CTA button
+   */
+  showCta?: boolean;
+  /**
+   * Text for the CTA button
+   */
+  ctaText?: string;
+  /**
+   * CTA button click handler
+   */
+  ctaAction?: (league: League) => void;
   /**
    * Additional CSS class name
    */
@@ -58,9 +70,12 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
   league,
   clickable = false,
   onClick,
-  showJoinButton = false,
-  isMember = false,
-  onJoin,
+  showBadge = false,
+  badgeText,
+  badgeType = 'default',
+  showCta = false,
+  ctaText,
+  ctaAction,
   className = '',
   ...props
 }) => {
@@ -77,10 +92,10 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
     }
   };
 
-  const handleJoinClick = (e: React.MouseEvent) => {
+  const handleCtaClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onJoin) {
-      onJoin(league);
+    if (ctaAction) {
+      ctaAction(league);
     }
   };
 
@@ -93,8 +108,6 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
     }
   };
 
-  const isFull = league.currentParticipants && league.currentParticipants >= league.maxParticipants;
-  const canJoin = !isMember && !isFull && league.isActive;
   const scoringTypeLabel = getScoringTypeLabel(league.scoringType);
 
   return (
@@ -155,18 +168,15 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
         )}
       </div>
 
-      {showJoinButton && (
+      {(showBadge || showCta) && (
         <div className="league-card__actions">
-          {isMember ? (
-            <Badge variant="success" size="sm">Member</Badge>
-          ) : isFull ? (
-            <Badge variant="warning" size="sm">Full</Badge>
-          ) : canJoin ? (
-            <Button size="sm" onClick={handleJoinClick}>
-              Join League
+          {showBadge && badgeText && (
+            <Badge variant={badgeType} size="sm">{badgeText}</Badge>
+          )}
+          {showCta && ctaText && (
+            <Button size="sm" onClick={handleCtaClick}>
+              {ctaText}
             </Button>
-          ) : (
-            <Badge variant="error" size="sm">Cannot Join</Badge>
           )}
         </div>
       )}
