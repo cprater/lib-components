@@ -40,7 +40,7 @@ const sampleLeague = {
   description: 'A competitive league for serious fantasy football players. Winner takes all!',
   commissionerId: 1,
   isPublic: true,
-  maxParticipants: 12,
+  memberCount: 12,
   entryFee: 50.00,
   scoringType: 'confidence' as const,
   seasonYear: 2024,
@@ -48,10 +48,7 @@ const sampleLeague = {
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   currentParticipants: 8,
-  commissioner: {
-    id: 1,
-    username: 'commissioner_joe'
-  }
+  ownerName: 'commissioner_joe',
 };
 
 const privateLeague = {

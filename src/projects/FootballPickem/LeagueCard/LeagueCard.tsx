@@ -9,7 +9,7 @@ export interface League {
   description?: string;
   commissionerId: number;
   isPublic?: boolean;
-  maxParticipants: number;
+  memberCount?: number;
   entryFee: number;
   scoringType: 'confidence' | 'straight' | 'survivor';
   seasonYear: number;
@@ -17,10 +17,7 @@ export interface League {
   createdAt: string;
   updatedAt: string;
   currentParticipants?: number;
-  commissioner?: {
-    id: number;
-    username: string;
-  };
+  ownerName: string;
 }
 
 export interface LeagueCardProps {
@@ -150,22 +147,20 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
       )}
 
       <div className="league-card__details">
-        <div className="league-card__detail">
+        {/* <div className="league-card__detail">
           <span className="league-card__detail-label">Season:</span>
           <span className="league-card__detail-value">{league.seasonYear}</span>
-        </div>
+        </div> */}
         <div className="league-card__detail">
           <span className="league-card__detail-label">Participants:</span>
           <span className="league-card__detail-value">
-            {league.currentParticipants || 0} / {league.maxParticipants}
+            {league.memberCount || 0}
           </span>
         </div>
-        {league.commissioner && (
-          <div className="league-card__detail">
-            <span className="league-card__detail-label">Commissioner:</span>
-            <span className="league-card__detail-value">@{league.commissioner.username}</span>
-          </div>
-        )}
+        <div className="league-card__detail">
+          <span className="league-card__detail-label">Commissioner:</span>
+          <span className="league-card__detail-value">@{league.ownerName}</span>
+        </div>
       </div>
 
       {(showBadge || showCta) && (
