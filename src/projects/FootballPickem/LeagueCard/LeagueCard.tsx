@@ -126,14 +126,14 @@ export const LeagueCard: React.FC<LeagueCardProps> = ({
             {/* <Badge variant={league.isPublic ? 'success' : 'warning'} size="sm">
               {league.isPublic ? 'Public' : 'Private'}
             </Badge> */}
-            {scoringTypeLabel && (
+            {/* {scoringTypeLabel && (
               <Badge variant="info" size="sm">
                 {scoringTypeLabel}
               </Badge>
-            )}
-            {!league.isActive && (
+            )} */}
+            {/* {!league.isActive && (
               <Badge variant="error" size="sm">Inactive</Badge>
-            )}
+            )} */}
           </div>
         </div>
         {league.entryFee > 0 && (

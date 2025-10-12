@@ -1,6 +1,6 @@
 {
   "name": "puppy-lib-components",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A modern TypeScript React component library with generic UI components and football pickem domain components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
