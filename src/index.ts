@@ -32,6 +32,9 @@ export type { LeagueCardProps, League } from './projects/FootballPickem/LeagueCa
 export { GameCard } from './projects/FootballPickem/GameCard';
 export type { GameCardProps, Game, Team } from './projects/FootballPickem/GameCard';
 
+export { GamePick } from './projects/FootballPickem/GamePick';
+export type { GamePickProps, GamePickData, UserPick } from './projects/FootballPickem/GamePick';
+
 // Feedback Components
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';

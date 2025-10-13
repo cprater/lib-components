@@ -1,0 +1,165 @@
+.game-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.game-pick__header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.game-pick__matchup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.game-pick__team {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.game-pick__team--clickable {
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.game-pick__team--clickable:hover {
+  background-color: var(--gray-50);
+  border-color: var(--primary-200);
+  transform: scale(1.02);
+}
+
+.game-pick__team--clickable:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.game-pick__team--clickable:active {
+  transform: scale(0.98);
+}
+
+.game-pick__team--picked {
+  background-color: var(--primary-50);
+  border: 2px solid var(--primary-500);
+}
+
+.game-pick__team--picked:hover {
+  background-color: var(--primary-100);
+  border-color: var(--primary-600);
+}
+
+.game-pick__team--winner {
+  background-color: var(--success-50);
+  border: 2px solid var(--success-500);
+}
+
+.game-pick__team--loser {
+  opacity: 0.6;
+  background-color: var(--gray-50);
+  border: 2px solid var(--gray-300);
+}
+
+.game-pick__team-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.game-pick__team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.game-pick__team-name {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+.game-pick__team-abbr {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--gray-500);
+}
+
+.game-pick__score {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--gray-900);
+  min-width: 3rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.game-pick__pick-indicator {
+  font-size: var(--font-size-xl);
+  color: var(--primary-600);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.game-pick__vs {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.game-pick__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--gray-100);
+}
+
+.game-pick__time {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .game-pick__team-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .game-pick__team-name {
+    font-size: var(--font-size-sm);
+  }
+
+  .game-pick__team-abbr {
+    font-size: var(--font-size-xs);
+  }
+
+  .game-pick__score {
+    font-size: var(--font-size-xl);
+    min-width: 2.5rem;
+  }
+}
+
