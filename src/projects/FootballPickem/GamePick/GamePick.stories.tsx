@@ -24,7 +24,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const baseGame = {
-  id: 1,
+  gameId: 1,
   homeTeamId: 1,
   awayTeamId: 2,
   gameDatetime: '2024-01-21T18:00:00Z',
@@ -153,7 +153,7 @@ export const AllStates: Story = {
     const game1 = baseGame;
     const game2 = {
       ...baseGame,
-      id: 2,
+      gameId: 2,
       week: 2,
       homeTeam: {
         id: 3,
@@ -176,7 +176,7 @@ export const AllStates: Story = {
     };
     const game3 = {
       ...baseGame,
-      id: 3,
+      gameId: 3,
       week: 3,
       homeScore: 27,
       awayScore: 24,

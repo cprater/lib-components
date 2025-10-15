@@ -66,10 +66,10 @@ import { GamePick } from '@your-org/lib-components/projects/FootballPickem';
 
 ```typescript
 interface GamePickData {
-  id: number;
+  gameId: number;
   homeTeamId: number;
   awayTeamId: number;
-  gameDate: string;
+  gameDatetime: string;
   week: number;
   homeScore?: number;
   awayScore?: number;

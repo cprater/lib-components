@@ -4,7 +4,7 @@ import { Team } from '../GameCard';
 import './GamePick.css';
 
 export interface GamePickData {
-  id: number;
+  gameId: number;
   homeTeamId: number;
   awayTeamId: number;
   gameDatetime: string;
@@ -40,7 +40,7 @@ export interface GamePickProps {
   /**
    * Click handler when a team is picked
    */
-  onPickTeam?: (teamId: number) => void;
+  onPickTeam?: (gameId: number, teamId: number) => void;
   /**
    * Additional CSS class name
    */
@@ -55,9 +55,9 @@ export const GamePick: React.FC<GamePickProps> = ({
   onPickTeam,
   className = '',
 }) => {
-  const handleTeamClick = (teamId: number) => {
+  const handleTeamClick = (gameId: number, teamId: number) => {
     if (!locked && !showResults && onPickTeam) {
-      onPickTeam(teamId);
+      onPickTeam(gameId, teamId);
     }
   };
 
@@ -135,13 +135,13 @@ export const GamePick: React.FC<GamePickProps> = ({
         {/* Away Team */}
         <div
           className={getTeamClasses(game.awayTeamId)}
-          onClick={() => handleTeamClick(game.awayTeamId)}
+          onClick={() => handleTeamClick(game.gameId, game.awayTeamId)}
           role={canPick ? 'button' : undefined}
           tabIndex={canPick ? 0 : undefined}
           onKeyDown={(e) => {
             if (canPick && (e.key === 'Enter' || e.key === ' ')) {
               e.preventDefault();
-              handleTeamClick(game.awayTeamId);
+              handleTeamClick(game.gameId, game.awayTeamId);
             }
           }}
         >
@@ -173,13 +173,13 @@ export const GamePick: React.FC<GamePickProps> = ({
         {/* Home Team */}
         <div
           className={getTeamClasses(game.homeTeamId)}
-          onClick={() => handleTeamClick(game.homeTeamId)}
+          onClick={() => handleTeamClick(game.gameId, game.homeTeamId)}
           role={canPick ? 'button' : undefined}
           tabIndex={canPick ? 0 : undefined}
           onKeyDown={(e) => {
             if (canPick && (e.key === 'Enter' || e.key === ' ')) {
               e.preventDefault();
-              handleTeamClick(game.homeTeamId);
+              handleTeamClick(game.gameId, game.homeTeamId);
             }
           }}
         >
